@@ -11,7 +11,7 @@ const Navbar = () => {
 
   return (
     <div className="flex justify-between items-center py-4 px-8">
-      <img src='./images/finallogo.png' alt="logo" className="w-20 cursor-pointer" onClick={() => navigate('/')}/>
+      <img src='/images/finallogo.png' alt="logo" className="w-20 cursor-pointer" onClick={() => navigate('/')}/>
 
       <ul className="hidden md:flex space-x-8 font-medium  ">
         <NavLink to="/">
@@ -35,10 +35,10 @@ const Navbar = () => {
 
           {
             token ? <div className="flex items-center gap-4 cursor-pointer group relative" onClick={() => setShowMenu(!showMenu)}>
-                   <img className="w-8 rounded-full" src='./images/profile_pic.png' alt="profileimg"/>
-                   <img className="w-3" src="./images/cross_icon.png" alt="dropdownicon"/>
+                   <img className="w-8 rounded-full" src='/images/profile_pic.png' alt="profileimg"/>
+                   <img className="w-3" src="/images/cross_icon.png" alt="dropdownicon"/>
 
-                   <div className="absolute top-0 right-0 pt-14 text-base font-medium z-20 text-gray-500  shadow-md hidden group-hover:block">
+                   <div className="absolute top-0  right-0 pt-14 text-black font-medium z-20  shadow-md hidden group-hover:block">
                     <div className="min-w-48  rounded flex flex-col gap-4 p-4">
                         <p onClick={() => navigate('/myprofile')} className=" hover:text-black cursor-pointer">My Profile</p>
                         <p onClick={() => navigate('/myappointment')} className=" hover:text-black cursor-pointer">My Appointment</p>

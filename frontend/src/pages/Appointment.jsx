@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
+import RelatedDoctor from "../component/RelatedDoctor";
 
 const Appointment = () => {
   const { docId } = useParams();
   const { doctors } = useContext(AppContext);
+  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const [docInfo, setDocInfo] = useState(null);
   const [docSlot, setDocSlot] = useState([]);
@@ -40,7 +42,7 @@ const Appointment = () => {
       }
       let slots = [];
 
-      while (today < endTime) {
+      while (currentDate < endTime) {
         let formatedTime = currentDate.toLocaleTimeString([], {
           hour: "2-digit",
           minute: "2-digit",
@@ -117,62 +119,42 @@ const Appointment = () => {
           </div>
         </div>
 
-        {/*----appointment form-----*/}
-        <div className="flex flex-col items-center gap-5 mt-5">
-          <h1 className="text-3xl font-bold">Book an Appointment</h1>
-          <p className="text-sm">
-            Please fill the form below to book an appointment
-          </p>
-          <form className="flex flex-col items-center gap-5">
-            <input
-              type="text"
-              placeholder="Name"
-              className="w-96 h-10 p
-          x-3 border border-gray-300 rounded"
-            />
-            <input
-              type="text"
-              placeholder="Email"
-              className="w-96 h-10 p
-          x-3 border border-gray-300 rounded"
-            />
-            <input
-              type="text"
-              placeholder="Phone"
-              className="w-96 h-10 p
-          x-3 border border-gray-300 rounded"
-            />
-            <input
-              type="date"
-              className="w-96 h-10 p
-          x-3 border border-gray-300 rounded"
-            />
-            <input
-              type="time"
-              className="w-96 h-10 p
-          x-3 border border-gray-300 rounded"
-            />
-            <button className="w-96 h-10 bg-blue-500 text-white rounded">
-              Book Appointment
-            </button>
-          </form>
-        </div>
-        {/*----location details-----*/}
-        <div className="flex flex-col items-center gap-5 mt-5">
-          <h1 className="text-3xl font-bold">Location Details</h1>
-
-          <p className="text-sm">Please find the location details below</p>
-          <p className="text-sm">{docInfo?.address.line1}</p>
-
-          <p className="text-sm">{docInfo?.address.line2}</p>
-
-          <p className="text-sm">{docInfo?.address.city}</p>
-
-          <p className="text-sm">{docInfo?.address.state}</p>
-        </div>
+        {/*----Booking slots-----*/}
+  
+       <div className="sm:ml-72 sm:pl-4 mt-4 font-medium text-gray-900">
+        <p className="text-3xl  font-bold">Booking Slots </p>
+        <div className="flex items-center gap-3 w-full overflow-x-scroll mt-4">
+       
+       {
+         docSlot.length && docSlot.map((item, index) => (
+          <div key={index} className={`py-6 text-center border border-gray-300 cursor-pointer rounded-full min-w-16 ${slotIndex === index ? "bg-primary text-white" : "border border-gray-200"}`} onClick={() => {setSlotIndex(index); setSlotTime(item[0].time)}}>
+            <p className="text-sm text-gray-900">{item[0] && daysOfWeek[item[0].dateTime.getDay()]}</p>
+            <p className="text-sm text-gray-900">{item[0] && item[0].dateTime.getDate()}</p>
+          </div>
+          ))
+       }
       </div>
-    )
-  );
+         
+     <div className="flex items-center w-full gap-3 overflow-x-scroll mt-4">
+      {
+        docSlot.length && docSlot[slotIndex].map((item, index) => (
+          <p onClick={() => setSlotTime(item.time)} key={index} className={`text-sm cursor-pointer font-light flex-shrink-0 px-5 py-2 rounded-full ${item.time === slotTime ? ' bg-primary text-white' : 'border border-gray-800'}`} >{item.time.toLowerCase()}
+          </p>
+        ))
+      }
+     </div>
+
+     <button  className=" bg-primary text-white text-sm font-light px-14 py-3 mt-4 rounded-full">Book an appointment</button>
+
+      </div>
+
+      {/*----related doctor-----*/}
+
+      <RelatedDoctor docId={docId} speciality={docInfo.speciality} />
+      </div>
+
+  )
+);
 };
 
 export default Appointment;

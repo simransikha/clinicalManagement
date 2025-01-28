@@ -1,14 +1,23 @@
-import React, { useContext } from 'react'
-import {useNavigate}  from 'react-router-dom';
-import { AppContext } from '../context/AppContext';
+import React, { useContext, useEffect, useState } from 'react'
+import { AppContext } from '../context/AppContext'
+import { useNavigate } from 'react-router-dom'
 
+const RelatedDoctor = ({speciality,docId}) => {
 
-
-const TopDoctor = () => {
-
-    const navigate = useNavigate()
     const {doctors} = useContext(AppContext)
+    const [relDoc, setRelDoc] = useState([])
+    const navigate = useNavigate()
 
+    useEffect(() => {
+
+        if(doctors.length > 0 && speciality){
+            const doctorData = doctors.filter((item) => item.speciality === speciality && item._id !== docId)
+            setRelDoc(doctorData)
+        }
+        else{
+            setRelDoc([])
+        }
+    },[speciality,doctors,docId])
 
   return (
     <div className='flex flex-col items-center gap-4 my-16 md:mx-10 text-gray-700 '>
@@ -17,7 +26,7 @@ const TopDoctor = () => {
         
         <div className="grid w-full grid-cols-auto gap-4 pt-5 gap-y-6 px-3 sm:px-8">
             {
-                doctors.slice(0,10).map((item,index) => (
+                relDoc.slice(0,5).map((item,index) => (
                     <div onClick={() => {navigate(`/appointment/${item._id}`); scrollTo(0,0)}} key={index} className=" items-center border-blue-300 border hover:translate-y-[-10px] overflow-hidden rounded-xl transition-all duration-500   ">
                           <img className='bg-blue-50 ' src={item.image} alt={item.name} />
                           <div className='p-4'>
@@ -37,4 +46,4 @@ const TopDoctor = () => {
   )
 }
 
-export default TopDoctor
+export default RelatedDoctor
