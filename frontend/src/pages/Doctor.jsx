@@ -34,7 +34,7 @@ useEffect(() => {
     <p  className='text-gray-500'> Browse the list of doctors by speciality: {speciality}</p>
     <div className='flex flex-col sm:flex-row items-start gap-5 mt-5   '>
       <button className={`sm:hidden transition-all text-sm px-3 py-1 rounded border ${filter ? 'bg-primary text-white ' : ''}`} onClick={() => setFilter(prev => !prev)}>Filters</button>
-      <div  className='flex flex-col text-sm  gap-4  text-gray-700 '>
+      <div  className={`flex-col text-sm  gap-4  text-gray-700 ${filter ? 'flex' : 'hidden sm:flex'}`}>
         <p onClick={() => speciality === 'Generalphysician' ? navigate('/doctor') : navigate('/doctor/Generalphysician')} className={`sm:w-auto w-[94vw] pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all duration-300 cursor-pointer  ${speciality === 'General physician' ? "bg-indigo-100  text-black" : " "}`} > General Physician</p>
         <p onClick={() => speciality === 'Gastroenterologist' ? navigate('/doctor') : navigate('/doctor/Gastroenterologist')} className={`sm:w-auto w-[94vw] pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === 'Gastroenterologist' ? "bg-indigo-100  text-black" : " "}`}> Gastroenterologist</p>
         <p onClick={() => speciality === 'Dermatologist' ? navigate('/doctor') : navigate('/doctor/Dermatologist')} className={`sm:w-auto w-[94vw] pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === 'Dermatologist' ? "bg-indigo-100  text-black" : " "}`}>Dermatologist </p>
