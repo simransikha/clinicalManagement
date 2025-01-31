@@ -2,6 +2,7 @@ import Doctor from "../model/doctorModel.js";
 import validator from "validator";
 import bcrypt from "bcrypt";
 import { v2 as cloudinary } from "cloudinary";
+import jsonwebtoken from "jsonwebtoken";
 
 //api for adding doctor
 
@@ -99,9 +100,9 @@ const adminLogin = async (req, res) => {
       email === process.env.ADMIN_EMAIL &&
       password === process.env.ADMIN_PASSWORD
     ) {
-      return res
-        .status(200)
-        .json({ success: true, message: "Admin login successfully" });
+      const token = jsonwebtoken.sign(email + password, process.env.JWT_SECRET);
+
+      res.json({ success: true, token });
     } else {
       return res
         .status(400)
