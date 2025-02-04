@@ -16,7 +16,7 @@ const doctorSchema = mongoose.Schema({
     },
     address: {
         type: String,
-        default : {line1 : ''}
+       
     },
     speciality: {
         type: String,

@@ -1,13 +1,18 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
 
 
 const Navbar = () => {
-
+    const {token, setToken, userData} = useContext(AppContext)
     const navigate = useNavigate();
     const [showMenu, setShowMenu] = useState(false);
-    const [token, setToken] = useState(true);
+  
+    const logOut = () => {
+      setToken(false)
+      localStorage.removeItem('token')
+    }
 
   return (
     <div className="flex justify-between items-center py-4 px-8">
@@ -32,17 +37,17 @@ const Navbar = () => {
         </NavLink>
       </ul>
       <div className="flex items-center gap-4 ">
-
           {
-            token ? <div className="flex items-center gap-4 cursor-pointer group relative" onClick={() => setShowMenu(!showMenu)}>
-                   <img className="w-8 rounded-full" src='/images/profile_pic.png' alt="profileimg"/>
+            token && userData ? 
+            <div className="flex items-center gap-4 cursor-pointer group relative" onClick={() => setShowMenu(!showMenu)}>
+                   <img className="w-8 rounded-full" src={userData.image} alt="profileimg"/>
                    <img className="w-3" src="/images/cross_icon.png" alt="dropdownicon"/>
 
                    <div className="absolute top-0  right-0 pt-14 text-black font-medium z-20  shadow-md hidden group-hover:block">
                     <div className="min-w-48 bg-slate-200 rounded flex flex-col gap-4 p-4">
                         <p onClick={() => navigate('/myprofile')} className=" hover:text-black cursor-pointer">My Profile</p>
                         <p onClick={() => navigate('/myappointment')} className=" hover:text-black cursor-pointer">My Appointment</p>
-                        <p onClick={() => setToken(false)} className=" hover:text-black cursor-pointer">LogOut</p>
+                        <p onClick={logOut} className=" hover:text-black cursor-pointer">LogOut</p>
                     </div>
                    </div>
             </div>
